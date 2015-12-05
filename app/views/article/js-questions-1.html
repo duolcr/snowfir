@@ -1,0 +1,117 @@
+<article class="blog">
+    <h2>JS Questions - I</h2>
+
+    <!-- Q1 -->
+    <h3>1. What do you think of AMD vs CommonJS?</h3>
+    <p><a href="http://wiki.commonjs.org/wiki/Modules/1.1">CommonJS</a>, <a href="https://github.com/amdjs/amdjs-api/wiki/AMD">AMD</a></p>
+
+    <!-- Q2 -->
+    <h3>2. Explain what a single page app is and how to make one SEO-friendly.</h3>
+    <p><a href="https://en.wikipedia.org/wiki/Single-page_application">https://en.wikipedia.org/wiki/Single-page_application</a></p>
+
+    <!-- Q3 -->
+    <h3>3. What's the difference between a variable that is: null, undefined or undeclared? How would you go about checking for any of these states?</h3>
+    <p>JavaScript has two distinct values for nothing, null and undefined.</p>
+    <h4><code>undefined</code></h4>
+    <p><code>undefined</code> means, value of the variable is not defined. JavaScript has a global variable <code>undefined</code> whose value is "undefined" and <code>typeof undefined</code> is also "undefined". Remember, undefined is not a constant or a keyword. undefined is a type with exactly one value: undefined. Assigning a new value to it does not change the value of the type undefined.</p>
+
+    <p><em>8 Ways to get Undefined:</em></p>
+    <ul>
+        <li>A declared variable without assigning any value to it.</li>
+        <li>Implicit returns of functions due to missing return statements.</li>
+        <li>return statements that do not explicitly return anything.</li>
+        <li>Lookups of non-existent properties in an object.</li>
+        <li>Function parameters that have not passed.</li>
+        <li>Anything that has been set to the value of undefined.</li>
+        <li>Any expression in the form of void(expression)</li>
+        <li>The value of the global variable <code>undefined</code></li>
+    </ul>
+    <h4><code>null</code></h4>
+    <p><code>null</code> means empty or non-existent value which is used by programmers to indicate “no value”. null is a primitive value and you can assign null to any variable. null is not an object, it is a primitive value. For example, you cannot add properties to it. Sometimes people wrongly assume that it is an object, because typeof null returns "object".</p>
+    <p>Btw, <code>null == undefined</code> ref: <a href="http://www.2ality.com/2013/10/typeof-null.html">history of typeof null</a></p>
+    <h4><code>undeclared</code></h4>
+    <p>Declared variables are constrained in the execution context in which they are declared. Undeclared variables are always global.</p>
+    <div class="panel panel-info">
+        <div class="panel-heading">Reference</div>
+        <div class="panel-body">
+            <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var" target="_blank">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var</a>
+        </div>
+    </div>
+    <!-- Q4 -->
+    <h3>4. Explain why the following doesn't work as an IIFE: <code>function foo(){ }();</code>. What needs to be changed to properly make it an IIFE?</h3>
+    <p>It forces the parser to treat the part following the + as an expression. This is usually used for functions that are invoked immediately, e.g.:</p>
+    <pre>+function() { console.log("Foo!"); }();</pre>
+    <p>Without the + there, if the parser is in a state where it's expecting a statement (which can be an expression or several non-expression statements), the word function looks like the beginning of a function declaration rather than a function expression and so the () following it (the ones at the end of the line above) would be a syntax error (as would the absense of a name, in that example). With the +, it makes it a function expression, which means the name is optional and which results in a reference to the function, which can be invoked, so the parens are valid.</p>
+    <p>+ is just one of the options. It can also be -, !, ~, or just about any other unary operator. Alternately, you can use parens (this is more common, but neither more nor less correct syntactically):</p>
+    <pre>
+(function() { console.log("Foo!"); })();
+// or
+(function() { console.log("Foo!"); }());
+    </pre>
+    <div class="panel panel-info">
+        <div class="panel-heading">Reference</div>
+        <div class="panel-body">
+            <a href="http://stackoverflow.com/questions/13341698/javascript-plus-sign-in-front-of-function-name" target="_blank">http://stackoverflow.com/questions/13341698/javascript-plus-sign-in-front-of-function-name</a>
+            <a href="http://benalman.com/news/2010/11/immediately-invoked-function-expression/" target="_blank">http://benalman.com/news/2010/11/immediately-invoked-function-expression/</a>
+        </div>
+    </div>
+
+    <h3>5. Explain "hoisting".</h3>
+    <pre>
+function foo(){
+    return bar();
+    var bar = function() {
+        return 8;
+    }
+}
+//Uncaught TypeError: bar is not a function
+
+function foo(){
+    var bar = function() {
+        return 3;
+    }
+    return bar();
+    bar = function() {
+        return 8;
+    }
+}
+//3
+
+function foo(){
+    var bar = function() {
+        return 3;
+    }
+    return bar();
+    function bar() {
+        return 8;
+    }
+}
+foo();
+//3
+
+function foo(){
+    function bar() {
+        return 3;
+    }
+    return bar();
+    function bar() {
+        return 8;
+    }
+}
+//8
+
+function foo(){
+    return bar();
+    function bar() {
+        return 8;
+    }
+}
+//8
+    </pre>
+    <div class="panel panel-info">
+        <div class="panel-heading">Reference</div>
+        <div class="panel-body">
+            <a style="font-size: 10px;" href="http://www.w3schools.com/js/js_hoisting.asp" target="_blank">http://www.w3schools.com/js/js_hoisting.asp/</a>
+        </div>
+    </div>
+</article>
